@@ -1,7 +1,14 @@
-import { T } from '../tokens'
-import { ic } from '../components/icons'
-import { Card, Tag } from '../components/ui'
-import { formatNaira } from '../utils'
+import { T } from '@/lib/tokens'
+import { ic } from '@/components/icons'
+import { Card, Tag } from '@/components/ui'
+import { formatNaira } from '@/lib/utils'
+
+export const metadata = {
+  title: 'Orders',
+  description: 'Track your implant orders, delivery status, and delivery locations.',
+  alternates: { canonical: '/orders' },
+  robots: { index: false, follow: false },
+}
 
 const ORDERS = [
   {
@@ -16,15 +23,15 @@ const ORDERS = [
   },
 ]
 
-export default function Orders() {
+export default function OrdersPage() {
   return (
     <div>
-      <h2 style={{
+      <h1 style={{
         fontSize: 26, fontWeight: 700, fontFamily: T.fH, color: T.ink,
         margin: '0 0 20px', letterSpacing: -0.5,
       }}>
         Orders
-      </h2>
+      </h1>
       {ORDERS.map((o, i) => (
         <Card key={o.num} style={{
           padding: '20px 24px', marginBottom: 10,

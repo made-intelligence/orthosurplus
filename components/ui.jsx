@@ -1,4 +1,6 @@
-import { T } from '../tokens'
+'use client'
+
+import { T } from '@/lib/tokens'
 import { ic } from './icons'
 
 export const Tag = ({ color, bg, children }) => (

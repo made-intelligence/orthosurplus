@@ -1,19 +1,29 @@
+'use client'
+
 import { useState } from 'react'
-import { T } from '../tokens'
-import { ic } from '../components/icons'
-import { Stat, Card, Tag } from '../components/ui'
+import { T } from '@/lib/tokens'
+import { ic } from '@/components/icons'
+import { Stat, Card, Tag } from '@/components/ui'
 
 export default function Referrals() {
   const [copied, setCopied] = useState(false)
 
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText('OS-A4D2F1')
+    } catch {}
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <div>
-      <h2 style={{
+      <h1 style={{
         fontSize: 26, fontWeight: 700, fontFamily: T.fH, color: T.ink,
         margin: '0 0 4px', letterSpacing: -0.5,
       }}>
         Refer & Earn
-      </h2>
+      </h1>
       <p style={{ fontSize: 14, color: T.ink20, margin: '0 0 24px' }}>
         ₦25,000 credit per qualified referral
       </p>
@@ -39,7 +49,7 @@ export default function Referrals() {
             }}>
               OS-A4D2F1
             </div>
-            <button onClick={() => { setCopied(true); setTimeout(() => setCopied(false), 2000) }} style={{
+            <button onClick={onCopy} aria-label="Copy referral code" style={{
               width: 48, height: 48, borderRadius: T.r, background: T.ink, border: 'none',
               cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
@@ -47,20 +57,26 @@ export default function Referrals() {
             </button>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button style={{
+            <button onClick={onCopy} style={{
               flex: 1, padding: 12, borderRadius: T.r, border: `1px solid ${T.ink05}`,
               background: T.card, fontSize: 13, fontWeight: 600, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
             }}>
               {ic.copy({ size: 14 })} {copied ? 'Copied!' : 'Copy link'}
             </button>
-            <button style={{
-              flex: 1, padding: 12, borderRadius: T.r, border: 'none',
-              background: '#25D366', color: '#fff', fontSize: 13, fontWeight: 600,
-              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-            }}>
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent('Join OrthoSurplus with my code OS-A4D2F1 and get 5% off your first order: https://orthosurplus.com')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                flex: 1, padding: 12, borderRadius: T.r, border: 'none',
+                background: '#25D366', color: '#fff', fontSize: 13, fontWeight: 600,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                textDecoration: 'none',
+              }}
+            >
               {ic.share({ size: 14, color: '#fff' })} WhatsApp
-            </button>
+            </a>
           </div>
         </Card>
 

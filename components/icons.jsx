@@ -1,4 +1,4 @@
-import { T } from '../tokens'
+import { T } from '@/lib/tokens'
 
 const I = ({ d, size = 20, color = T.ink40, sw = 1.6 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color}

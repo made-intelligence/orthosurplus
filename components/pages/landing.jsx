@@ -1,25 +1,40 @@
+'use client'
+
 import { useState, useEffect } from 'react'
-import { T } from '../tokens'
-import { ic } from '../components/icons'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { T } from '@/lib/tokens'
+import { ic } from '@/components/icons'
+
 const implantImg = '/implant-hero.jpeg'
 
-export default function Landing({ go }) {
+export default function Landing() {
+  const router = useRouter()
   const [v, setV] = useState(false)
   const [mobileMenu, setMobileMenu] = useState(false)
-  useEffect(() => { setTimeout(() => setV(true), 100) }, [])
+  useEffect(() => {
+    const t = setTimeout(() => setV(true), 100)
+    return () => clearTimeout(t)
+  }, [])
+
+  const go = (path) => {
+    setMobileMenu(false)
+    router.push(path)
+  }
 
   return (
     <div style={{ background: '#fff', minHeight: '100%' }}>
       {/* NAV */}
       <nav className="nav-pad" style={{
-        position: 'sticky', top: 0, zIndex: 50,
+        position: 'sticky', top: 28, zIndex: 50,
         background: 'rgba(255,255,255,.92)', backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(226,232,240,.6)',
         padding: '0 48px', height: 64,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         animation: 'fadeIn .6s both',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
           <div style={{
             width: 32, height: 32, borderRadius: 8, background: T.teal,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -29,28 +44,32 @@ export default function Landing({ go }) {
           <span style={{ fontSize: 17, fontWeight: 700, color: T.ink, fontFamily: T.fH, letterSpacing: -0.5 }}>
             OrthoSurplus
           </span>
-        </div>
+        </Link>
 
         <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          <button className="navL" onClick={() => go('catalogue')}>Catalogue</button>
-          <button className="navL" onClick={() => go('membership')}>Membership</button>
-          <button className="navL" onClick={() => go('vendor')}>For vendors</button>
+          <Link className="navL" href="/catalogue">Catalogue</Link>
+          <Link className="navL" href="/membership">Membership</Link>
+          <Link className="navL" href="/vendor">For vendors</Link>
         </div>
 
         <div className="nav-auth" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <button onClick={() => go('home')} className="navL" style={{ color: T.ink60, fontWeight: 600 }}>Log in</button>
-          <button onClick={() => go('home')} style={{
+          <Link href="/dashboard" className="navL" style={{ color: T.ink60, fontWeight: 600 }}>Log in</Link>
+          <Link href="/dashboard" style={{
             background: T.ink, color: '#fff', fontSize: 14, fontWeight: 600,
-            padding: '9px 22px', borderRadius: 8, border: 'none',
+            padding: '9px 22px', borderRadius: 8, border: 'none', textDecoration: 'none',
           }}>
             Join →
-          </button>
+          </Link>
         </div>
 
         {/* Mobile menu toggle */}
-        <button className="nav-mobile" onClick={() => setMobileMenu(!mobileMenu)} style={{
-          display: 'none', background: 'none', border: 'none', padding: 4,
-        }}>
+        <button
+          className="nav-mobile"
+          aria-label={mobileMenu ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileMenu}
+          onClick={() => setMobileMenu(!mobileMenu)}
+          style={{ display: 'none', background: 'none', border: 'none', padding: 4 }}
+        >
           {mobileMenu ? ic.x({ size: 24, color: T.ink }) : ic.menu({ size: 24, color: T.ink })}
         </button>
       </nav>
@@ -58,16 +77,16 @@ export default function Landing({ go }) {
       {/* Mobile dropdown */}
       {mobileMenu && (
         <div style={{
-          position: 'fixed', top: 64, left: 0, right: 0, bottom: 0, zIndex: 40,
+          position: 'fixed', top: 92, left: 0, right: 0, bottom: 0, zIndex: 40,
           background: '#fff', padding: 24, animation: 'fadeIn .2s both',
           display: 'flex', flexDirection: 'column', gap: 8,
         }}>
           {[
-            { label: 'Catalogue', to: 'catalogue' },
-            { label: 'Membership', to: 'membership' },
-            { label: 'For vendors', to: 'vendor' },
+            { label: 'Catalogue', to: '/catalogue' },
+            { label: 'Membership', to: '/membership' },
+            { label: 'For vendors', to: '/vendor' },
           ].map((l) => (
-            <button key={l.to} onClick={() => { go(l.to); setMobileMenu(false) }} style={{
+            <button key={l.to} onClick={() => go(l.to)} style={{
               padding: '16px 0', fontSize: 18, fontWeight: 600, color: T.ink,
               background: 'none', border: 'none', borderBottom: `1px solid ${T.ink05}`,
               textAlign: 'left',
@@ -76,13 +95,13 @@ export default function Landing({ go }) {
             </button>
           ))}
           <div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
-            <button onClick={() => { go('home'); setMobileMenu(false) }} className="hBtn" style={{
+            <button onClick={() => go('/dashboard')} className="hBtn" style={{
               flex: 1, justifyContent: 'center', background: 'transparent',
               color: T.ink60, border: `1px solid ${T.ink10}`,
             }}>
               Log in
             </button>
-            <button onClick={() => { go('home'); setMobileMenu(false) }} className="hBtn" style={{
+            <button onClick={() => go('/dashboard')} className="hBtn" style={{
               flex: 1, justifyContent: 'center', background: T.ink, color: '#fff',
             }}>
               Join →
@@ -112,14 +131,14 @@ export default function Landing({ go }) {
             treat more patients and grow your practice.
           </p>
           <div className="hero-btns" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <button className="hBtn" onClick={() => go('catalogue')} style={{ background: T.ink, color: '#fff' }}>
+            <Link href="/catalogue" className="hBtn" style={{ background: T.ink, color: '#fff', textDecoration: 'none' }}>
               Browse catalogue {ic.arr({ size: 16, color: '#fff', sw: 2 })}
-            </button>
-            <button className="hBtn" onClick={() => go('membership')} style={{
-              background: 'transparent', color: T.ink60, border: `1px solid ${T.ink10}`,
+            </Link>
+            <Link href="/membership" className="hBtn" style={{
+              background: 'transparent', color: T.ink60, border: `1px solid ${T.ink10}`, textDecoration: 'none',
             }}>
               Membership plans
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -129,12 +148,12 @@ export default function Landing({ go }) {
             borderRadius: 24, padding: '40px 32px 28px',
             border: `1px solid ${T.ink05}`, boxShadow: T.shL, textAlign: 'center',
           }}>
-            <img
+            <Image
               src={implantImg}
               alt="CE/FDA certified knee implant"
               width={200}
               height={200}
-              loading="eager"
+              priority
               style={{
                 width: 200, height: 'auto', margin: '0 auto 20px', display: 'block',
                 filter: 'drop-shadow(0 8px 20px rgba(12,18,34,.10))',
@@ -340,15 +359,15 @@ export default function Landing({ go }) {
                     {ic.check({ size: 15, color: p.color, sw: 2 })} {f}
                   </div>
                 ))}
-                <button onClick={() => go('home')} className="hBtn" style={{
+                <Link href="/dashboard" className="hBtn" style={{
                   width: '100%', justifyContent: 'center', marginTop: 24,
                   background: p.pop ? p.color : 'transparent',
                   color: p.pop ? '#fff' : T.ink60,
                   border: p.pop ? 'none' : `1px solid ${T.ink10}`,
-                  fontSize: 14, padding: '14px 32px',
+                  fontSize: 14, padding: '14px 32px', textDecoration: 'none',
                 }}>
                   {p.cta}
-                </button>
+                </Link>
               </div>
             ))}
           </div>
@@ -362,8 +381,8 @@ export default function Landing({ go }) {
             fontSize: 22, fontWeight: 500, fontFamily: T.fH, color: T.ink,
             lineHeight: 1.6, fontStyle: 'italic', letterSpacing: -0.3,
           }}>
-            "I had a patient who needed bilateral TKR. The implant cost alone was going to be over ₦6 million.
-            She couldn't afford it. She's still walking with a cane."
+            &ldquo;I had a patient who needed bilateral TKR. The implant cost alone was going to be over ₦6 million.
+            She couldn&rsquo;t afford it. She&rsquo;s still walking with a cane.&rdquo;
           </div>
           <div style={{ marginTop: 20, fontSize: 14, color: T.ink40 }}>
             — Consultant Orthopaedic Surgeon, Lagos
@@ -388,9 +407,9 @@ export default function Landing({ go }) {
           <p style={{ fontSize: 14, color: T.ink40, margin: '0 0 16px' }}>
             They get 5% off their first order. You earn ₦25,000 in platform credit.
           </p>
-          <button onClick={() => go('referrals')} className="hBtn" style={{ background: T.ink, color: '#fff', fontSize: 14 }}>
+          <Link href="/referrals" className="hBtn" style={{ background: T.ink, color: '#fff', fontSize: 14, textDecoration: 'none' }}>
             Learn more {ic.arr({ size: 15, color: '#fff', sw: 2 })}
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -408,9 +427,9 @@ export default function Landing({ go }) {
         <p style={{ fontSize: 16, color: T.ink40, margin: '0 0 32px' }}>
           Membership starts at ₦75,000/month. Cancel anytime.
         </p>
-        <button onClick={() => go('home')} className="hBtn" style={{ background: T.ink, color: '#fff', fontSize: 16 }}>
+        <Link href="/dashboard" className="hBtn" style={{ background: T.ink, color: '#fff', fontSize: 16, textDecoration: 'none' }}>
           Join OrthoSurplus {ic.arr({ size: 16, color: '#fff', sw: 2 })}
-        </button>
+        </Link>
       </section>
 
       {/* FOOTER */}

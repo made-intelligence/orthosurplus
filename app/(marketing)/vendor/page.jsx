@@ -1,8 +1,22 @@
-import { T } from '../tokens'
-import { ic } from '../components/icons'
-import { Card } from '../components/ui'
+import Link from 'next/link'
+import { T } from '@/lib/tokens'
+import { ic } from '@/components/icons'
+import { Card } from '@/components/ui'
 
-export default function Vendor({ go }) {
+export const metadata = {
+  title: 'For vendors',
+  description:
+    'List your orthopaedic implants on OrthoSurplus and reach surgeons across Nigeria, Ghana, and West Africa. We handle demand, ordering, payments, and last-mile delivery.',
+  alternates: { canonical: '/vendor' },
+  openGraph: {
+    title: 'OrthoSurplus for vendors — reach orthopaedic surgeons across West Africa',
+    description:
+      'List your products, we handle the market. Direct channel to surgeons doing joint replacement across West Africa.',
+    url: '/vendor',
+  },
+}
+
+export default function VendorPage() {
   return (
     <div className="section-pad" style={{ padding: '32px 48px' }}>
       <div style={{
@@ -16,28 +30,28 @@ export default function Vendor({ go }) {
           }}>
             For vendors
           </div>
-          <h2 style={{
+          <h1 style={{
             fontSize: 26, fontWeight: 700, fontFamily: T.fH, color: T.ink,
             margin: 0, letterSpacing: -0.5,
           }}>
             Reach orthopaedic surgeons across West Africa
-          </h2>
+          </h1>
         </div>
-        <button onClick={() => go('landing')} style={{
-          fontSize: 13, fontWeight: 600, color: T.ink40, background: 'none',
-          border: 'none', cursor: 'pointer',
+        <Link href="/" style={{
+          fontSize: 13, fontWeight: 600, color: T.ink40,
+          textDecoration: 'none',
         }}>
           ← Back
-        </button>
+        </Link>
       </div>
 
       <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
         <Card style={{ padding: 28 }}>
-          <h3 style={{
+          <h2 style={{
             fontSize: 17, fontWeight: 700, fontFamily: T.fH, color: T.ink, margin: '0 0 12px',
           }}>
             List your products
-          </h3>
+          </h2>
           <p style={{ fontSize: 14, color: T.ink40, lineHeight: 1.7, margin: '0 0 16px' }}>
             OrthoSurplus gives implant manufacturers and distributors a direct channel to orthopaedic
             surgeons in Nigeria, Ghana, and across the region. We handle demand generation, ordering,
@@ -49,11 +63,11 @@ export default function Vendor({ go }) {
         </Card>
 
         <Card style={{ padding: 28 }}>
-          <h3 style={{
+          <h2 style={{
             fontSize: 17, fontWeight: 700, fontFamily: T.fH, color: T.ink, margin: '0 0 16px',
           }}>
             Why vendors work with us
-          </h3>
+          </h2>
           {[
             'Access to surgeons doing joint replacement across West Africa',
             'Transparent ordering — no middlemen or opaque distributor chains',

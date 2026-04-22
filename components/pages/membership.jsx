@@ -1,8 +1,10 @@
+'use client'
+
 import { useState } from 'react'
-import { T } from '../tokens'
-import { ic } from '../components/icons'
-import { Card, Tag } from '../components/ui'
-import { formatNaira } from '../utils'
+import { T } from '@/lib/tokens'
+import { ic } from '@/components/icons'
+import { Card, Tag } from '@/components/ui'
+import { formatNaira } from '@/lib/utils'
 
 const TIERS = [
   {
@@ -27,12 +29,12 @@ export default function Membership() {
 
   return (
     <div>
-      <h2 style={{
+      <h1 style={{
         fontSize: 26, fontWeight: 700, fontFamily: T.fH, color: T.ink,
         margin: '0 0 4px', letterSpacing: -0.5,
       }}>
         Membership
-      </h2>
+      </h1>
       <p style={{ fontSize: 14, color: T.ink20, margin: '0 0 16px' }}>
         Every plan includes the full catalogue. Higher tiers save more per implant.
       </p>
@@ -57,9 +59,9 @@ export default function Membership() {
         <div style={{
           display: 'flex', background: T.bg, borderRadius: T.r, padding: 4,
           border: `1px solid ${T.ink05}`,
-        }}>
+        }} role="tablist" aria-label="Billing period">
           {['monthly', 'annual'].map((p) => (
-            <button key={p} onClick={() => setPeriod(p)} style={{
+            <button key={p} onClick={() => setPeriod(p)} role="tab" aria-selected={period === p} style={{
               padding: '8px 22px', borderRadius: 7, fontSize: 13, fontWeight: 600,
               border: 'none', cursor: 'pointer',
               background: period === p ? T.card : 'transparent',

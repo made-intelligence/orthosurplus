@@ -1,8 +1,10 @@
+'use client'
+
 import { useState } from 'react'
-import { T } from '../tokens'
-import { ic } from '../components/icons'
-import { Card, Tag } from '../components/ui'
-import { formatNaira } from '../utils'
+import Link from 'next/link'
+import { T } from '@/lib/tokens'
+import { Card, Tag } from '@/components/ui'
+import { formatNaira } from '@/lib/utils'
 
 const ALL_PRODUCTS = [
   { name: 'A3 Femoral Condylar', sku: 'AK-6916-1320', cat: 'Knee', sub: 'Primary TKR (PS)', price: 780000, stock: 6, mat: 'CoCr' },
@@ -16,7 +18,7 @@ const ALL_PRODUCTS = [
   { name: 'Dual Mobility Cup', sku: 'AK-DM-501', cat: 'Hip', sub: 'Dual Mobility', price: 680000, stock: 3, mat: 'CoCr+PE' },
 ]
 
-export default function Catalogue({ go }) {
+export default function Catalogue() {
   const [cat, setCat] = useState('All')
   const prods = ALL_PRODUCTS.filter((p) => cat === 'All' || p.cat === cat)
   const disc = 0.95
@@ -28,20 +30,20 @@ export default function Catalogue({ go }) {
         marginBottom: 20, flexWrap: 'wrap', gap: 12,
       }}>
         <div>
-          <h2 style={{
+          <h1 style={{
             fontSize: 26, fontWeight: 700, fontFamily: T.fH, color: T.ink,
             margin: '0 0 4px', letterSpacing: -0.5,
           }}>
             Catalogue
-          </h2>
+          </h1>
           <p style={{ fontSize: 14, color: T.ink20, margin: 0 }}>
             {prods.length} products · CE + FDA certified ·{' '}
             <span style={{ color: T.teal, fontWeight: 600 }}>5% Pro discount applied</span>
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 6 }}>
+        <div style={{ display: 'flex', gap: 6 }} role="tablist" aria-label="Filter by category">
           {['All', 'Knee', 'Hip'].map((c) => (
-            <button key={c} onClick={() => setCat(c)} style={{
+            <button key={c} onClick={() => setCat(c)} role="tab" aria-selected={cat === c} style={{
               padding: '7px 18px', borderRadius: 8, fontSize: 13, fontWeight: 600,
               cursor: 'pointer', border: `1.5px solid ${cat === c ? T.teal : T.ink05}`,
               background: cat === c ? `${T.teal}08` : T.card,
@@ -55,44 +57,46 @@ export default function Catalogue({ go }) {
 
       <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
         {prods.map((p, i) => (
-          <Card key={p.sku} hover onClick={() => go('product')} style={{
-            padding: 22, display: 'flex', flexDirection: 'column',
-            animation: `fadeUp .4s ${i * 0.03}s both`,
-          }}>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
-              <Tag color={T.teal}>{p.sub}</Tag>
-            </div>
-            <div style={{
-              fontSize: 16, fontWeight: 700, fontFamily: T.fH, color: T.ink,
-              marginBottom: 4, letterSpacing: -0.3,
+          <Link key={p.sku} href="/product" style={{ textDecoration: 'none' }}>
+            <Card hover style={{
+              padding: 22, display: 'flex', flexDirection: 'column',
+              animation: `fadeUp .4s ${i * 0.03}s both`,
             }}>
-              {p.name}
-            </div>
-            <div style={{ fontSize: 11, color: T.ink20, fontFamily: T.fM, marginBottom: 4 }}>
-              {p.sku} · {p.mat}
-            </div>
-            <div style={{
-              marginTop: 'auto', paddingTop: 14, borderTop: `1px solid ${T.ink05}`,
-              display: 'flex', justifyContent: 'space-between', alignItems: 'end',
-            }}>
-              <div>
-                <div style={{ fontSize: 11, color: T.ink20, textDecoration: 'line-through' }}>
-                  {formatNaira(p.price)}
-                </div>
-                <div style={{
-                  fontSize: 22, fontWeight: 700, fontFamily: T.fH, color: T.teal, letterSpacing: -0.5,
-                }}>
-                  {formatNaira(Math.round(p.price * disc))}
-                </div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+                <Tag color={T.teal}>{p.sub}</Tag>
               </div>
-              <span style={{
-                fontSize: 12, fontWeight: 600,
-                color: p.stock > 5 ? T.green : p.stock > 2 ? T.amber : T.rose,
+              <div style={{
+                fontSize: 16, fontWeight: 700, fontFamily: T.fH, color: T.ink,
+                marginBottom: 4, letterSpacing: -0.3,
               }}>
-                {p.stock} in stock
-              </span>
-            </div>
-          </Card>
+                {p.name}
+              </div>
+              <div style={{ fontSize: 11, color: T.ink20, fontFamily: T.fM, marginBottom: 4 }}>
+                {p.sku} · {p.mat}
+              </div>
+              <div style={{
+                marginTop: 'auto', paddingTop: 14, borderTop: `1px solid ${T.ink05}`,
+                display: 'flex', justifyContent: 'space-between', alignItems: 'end',
+              }}>
+                <div>
+                  <div style={{ fontSize: 11, color: T.ink20, textDecoration: 'line-through' }}>
+                    {formatNaira(p.price)}
+                  </div>
+                  <div style={{
+                    fontSize: 22, fontWeight: 700, fontFamily: T.fH, color: T.teal, letterSpacing: -0.5,
+                  }}>
+                    {formatNaira(Math.round(p.price * disc))}
+                  </div>
+                </div>
+                <span style={{
+                  fontSize: 12, fontWeight: 600,
+                  color: p.stock > 5 ? T.green : p.stock > 2 ? T.amber : T.rose,
+                }}>
+                  {p.stock} in stock
+                </span>
+              </div>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

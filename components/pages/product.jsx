@@ -1,8 +1,11 @@
+'use client'
+
 import { useState } from 'react'
-import { T } from '../tokens'
-import { ic } from '../components/icons'
-import { Card, Tag } from '../components/ui'
-import { formatNaira } from '../utils'
+import Link from 'next/link'
+import { T } from '@/lib/tokens'
+import { ic } from '@/components/icons'
+import { Card, Tag } from '@/components/ui'
+import { formatNaira } from '@/lib/utils'
 
 const SITES = [
   { name: 'Reddington Hospital', area: 'Victoria Island, Lagos', tag: 'Home' },
@@ -10,7 +13,7 @@ const SITES = [
   { name: 'LUTH', area: 'Surulere, Lagos', tag: 'Secondary' },
 ]
 
-export default function Product({ go }) {
+export default function Product() {
   const [size, setSize] = useState('4')
   const [site, setSite] = useState(0)
   const price = 780000
@@ -18,13 +21,12 @@ export default function Product({ go }) {
 
   return (
     <div>
-      <button onClick={() => go('catalogue')} style={{
-        display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 600,
-        color: T.ink40, background: 'none', border: 'none', cursor: 'pointer',
-        padding: 0, marginBottom: 20,
+      <Link href="/catalogue" style={{
+        display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 600,
+        color: T.ink40, textDecoration: 'none', marginBottom: 20,
       }}>
         ← Back to catalogue
-      </button>
+      </Link>
 
       <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
         {/* Left — product info */}
@@ -34,12 +36,12 @@ export default function Product({ go }) {
             <Tag color={T.green}>CE + FDA</Tag>
           </div>
           <div style={{ fontSize: 11, color: T.ink20, fontFamily: T.fM, marginBottom: 8 }}>AK-6916-1320</div>
-          <h2 style={{
+          <h1 style={{
             fontSize: 28, fontWeight: 700, fontFamily: T.fH, color: T.ink,
             margin: '0 0 6px', letterSpacing: -0.5,
           }}>
             A3 Femoral Condylar
-          </h2>
+          </h1>
           <p style={{ fontSize: 14, color: T.ink40, margin: '0 0 24px' }}>
             CoCr alloy posterior-stabilized femoral component. 3D-printed trabecular titanium fixation surface.
           </p>
@@ -65,9 +67,9 @@ export default function Product({ go }) {
         {/* Right — order config */}
         <Card style={{ padding: 28 }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: T.ink40, marginBottom: 8 }}>Size</div>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }} role="radiogroup" aria-label="Size">
             {['2', '2.5', '3', '4', '5', '6', '7'].map((s) => (
-              <button key={s} onClick={() => setSize(s)} style={{
+              <button key={s} onClick={() => setSize(s)} role="radio" aria-checked={size === s} style={{
                 minWidth: 44, height: 44, borderRadius: T.r, fontSize: 14, fontWeight: 600,
                 cursor: 'pointer', fontFamily: T.fM,
                 border: `2px solid ${size === s ? T.teal : T.ink05}`,
@@ -80,9 +82,9 @@ export default function Product({ go }) {
           </div>
 
           <div style={{ fontSize: 13, fontWeight: 600, color: T.ink40, marginBottom: 8 }}>Deliver to</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }} role="radiogroup" aria-label="Delivery site">
             {SITES.map((s, i) => (
-              <button key={i} onClick={() => setSite(i)} style={{
+              <button key={i} onClick={() => setSite(i)} role="radio" aria-checked={site === i} style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 padding: '12px 16px', borderRadius: T.r,
                 border: `2px solid ${site === i ? T.teal : T.ink05}`,

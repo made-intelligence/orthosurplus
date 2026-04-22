@@ -1,6 +1,5 @@
 import { Sora, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import PrototypeBar from '@/components/prototype-bar'
 import PwaRegister from '@/components/pwa-register'
 
 const sora = Sora({
@@ -115,7 +114,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${sora.variable} ${jetbrainsMono.variable}`}>
       <body>
-        <PrototypeBar />
         {children}
         <PwaRegister />
         <script

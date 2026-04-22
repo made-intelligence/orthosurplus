@@ -68,8 +68,8 @@ html, body, #__next { height: 100%; }
   .section-pad { padding: 48px 20px !important; }
   .nav-pad { padding: 0 20px !important; }
   .app-pad { padding: 20px 16px 40px !important; }
+  .app-header-pad { padding: 0 16px !important; }
   .hBtn { padding: 12px 24px; font-size: 14px; }
-  .proto-bar { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .membership-grid { grid-template-columns: 1fr !important; }
 }
 

@@ -18,11 +18,11 @@ export default function AppHeader() {
   const pathname = usePathname()
 
   return (
-    <header style={{
+    <header className="app-header-pad" style={{
       background: 'rgba(255,255,255,.92)', backdropFilter: 'blur(20px)',
-      borderBottom: `1px solid ${T.ink05}`, padding: '0 32px', height: 56,
+      borderBottom: `1px solid ${T.ink05}`, padding: '0 40px', height: 56,
       display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0,
-      position: 'sticky', top: 28, zIndex: 40,
+      position: 'sticky', top: 0, zIndex: 40,
     }}>
       <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
         <div style={{

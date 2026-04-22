@@ -27,7 +27,7 @@ export default function Landing() {
     <div style={{ background: '#fff', minHeight: '100%' }}>
       {/* NAV */}
       <nav className="nav-pad" style={{
-        position: 'sticky', top: 28, zIndex: 50,
+        position: 'sticky', top: 0, zIndex: 50,
         background: 'rgba(255,255,255,.92)', backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(226,232,240,.6)',
         padding: '0 48px', height: 64,
@@ -77,7 +77,7 @@ export default function Landing() {
       {/* Mobile dropdown */}
       {mobileMenu && (
         <div style={{
-          position: 'fixed', top: 92, left: 0, right: 0, bottom: 0, zIndex: 40,
+          position: 'fixed', top: 64, left: 0, right: 0, bottom: 0, zIndex: 40,
           background: '#fff', padding: 24, animation: 'fadeIn .2s both',
           display: 'flex', flexDirection: 'column', gap: 8,
         }}>
